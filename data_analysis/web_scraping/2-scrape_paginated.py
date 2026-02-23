@@ -26,7 +26,7 @@ def scrape_paginated(base_url):
               same format as scrape_basic
     """
     from bs4 import BeautifulSoup
-    
+
     all_quotes = []
     current_url = base_url
 
