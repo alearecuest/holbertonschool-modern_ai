@@ -12,7 +12,8 @@ def fetch_html(url, headers=None, timeout=10):
     Args:
         url (str): The page URL to retrieve
         headers (dict, optional): HTTP headers dictionary. Defaults to None.
-        timeout (int, optional): Seconds to wait before aborting. Defaults to 10.
+        timeout (int, optional): Seconds to wait before aborting.
+        Defaults to 10.
 
     Returns:
         str: The full HTML of the response as a string
