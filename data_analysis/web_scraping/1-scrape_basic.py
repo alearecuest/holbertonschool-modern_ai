@@ -2,7 +2,7 @@
 """
 Module for basic static web scraping.
 """
-from bs4 import BeautifulSoup
+BeautifulSoup = __import__('bs4').BeautifulSoup
 fetch_html = __import__('0-fetch_html').fetch_html
 
 
