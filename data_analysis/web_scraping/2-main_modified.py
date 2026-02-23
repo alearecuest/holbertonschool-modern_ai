@@ -5,7 +5,8 @@ url = "https://quotes.toscrape.com/"
 try:
     data = scrape_paginated(url)
     if data:
-        output = f"data[0]"
+        quote = data[0]
+        output = f"'text': {repr(quote['text'])}, 'author': {repr(quote['author'])}, 'tags': {quote['tags']}"
     else:
         output = "No quotes found."
     print(output)
