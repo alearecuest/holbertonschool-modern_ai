@@ -4,7 +4,7 @@ Module for handling paginated web scraping.
 """
 from bs4 import BeautifulSoup
 import time
-from urllib.parse import urljoin
+from urllib import parse
 
 
 fetch_html = __import__('0-fetch_html').fetch_html
@@ -42,7 +42,7 @@ def scrape_paginated(base_url):
             next_link = next_li.find('a')
             if next_link and next_link.get('href'):
                 next_href = next_link.get('href')
-                current_url = urljoin(base_url, next_href)
+                current_url = parse.urljoin(base_url, next_href)
                 time.sleep(1)
             else:
                 current_url = None
