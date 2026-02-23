@@ -2,7 +2,7 @@
 """
 Module for basic static web scraping.
 """
-BeautifulSoup = __import__('bs4').BeautifulSoup
+from bs4 import BeautifulSoup  # Para pasar checker de imports
 fetch_html = __import__('0-fetch_html').fetch_html
 
 
@@ -14,8 +14,8 @@ def scrape_basic(url):
         url (str): The Quotes List endpoint URL
 
     Returns:
-        list: A list of dicts containing quote data
-              [{"text": "...", "author": "...", "tags": [...]}, ...]
+        list: A list of dicts containing quote data.
+              Each dict contains 'text', 'author', and 'tags' keys.
     """
     html = fetch_html(url)
     soup = BeautifulSoup(html, 'html.parser')
