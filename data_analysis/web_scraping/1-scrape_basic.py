@@ -23,8 +23,6 @@ def scrape_basic(url):
               - author (str): The quote's author
               - tags (list): A list of tag strings
     """
-    from bs4 import BeautifulSoup
-    
     html = fetch_html(url)
     soup = BeautifulSoup(html, 'html.parser')
 
