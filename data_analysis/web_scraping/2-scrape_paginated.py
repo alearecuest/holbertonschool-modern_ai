@@ -2,8 +2,8 @@
 """
 Module for handling paginated web scraping.
 """
-import time
 from bs4 import BeautifulSoup
+import time
 
 
 fetch_html = __import__('0-fetch_html').fetch_html
@@ -46,7 +46,6 @@ def scrape_paginated(base_url):
                     current_url = base + next_href
                 else:
                     current_url = next_href
-
                 time.sleep(1)
             else:
                 current_url = None
