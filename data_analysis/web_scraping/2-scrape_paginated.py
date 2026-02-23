@@ -2,7 +2,6 @@
 """
 Module for handling paginated web scraping.
 """
-from bs4 import BeautifulSoup
 import time
 from urllib import parse
 
@@ -26,6 +25,8 @@ def scrape_paginated(base_url):
         list: The full list of quote dicts from all pages,
               same format as scrape_basic
     """
+    from bs4 import BeautifulSoup
+    
     all_quotes = []
     current_url = base_url
 
