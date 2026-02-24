@@ -3,6 +3,7 @@
 Module for extracting quotes from JSON-LD structured data.
 """
 import json
+import bs4
 
 
 fetch_html = __import__('0-fetch_html').fetch_html
@@ -22,10 +23,9 @@ def extract_jsonld(url):
     Returns:
         list: A list of quote dicts, each with keys text, author, and tags
     """
-    from bs4 import BeautifulSoup
-
+    
     html = fetch_html(url)
-    soup = BeautifulSoup(html, 'html.parser')
+    soup = bs4.BeautifulSoup(html, 'html.parser')
 
     quotes = []
 
