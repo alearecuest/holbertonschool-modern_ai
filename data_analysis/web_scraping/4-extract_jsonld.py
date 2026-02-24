@@ -23,7 +23,7 @@ def extract_jsonld(url):
     Returns:
         list: A list of quote dicts, each with keys text, author, and tags
     """
-    
+
     html = fetch_html(url)
     soup = bs4.BeautifulSoup(html, 'html.parser')
 
