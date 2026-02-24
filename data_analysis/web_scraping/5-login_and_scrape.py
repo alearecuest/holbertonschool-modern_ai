@@ -30,7 +30,7 @@ def login_and_scrape(login_url, user, pwd):
     soup = bs4.BeautifulSoup(response.text, 'html.parser')
 
     csrf_input = soup.find('input', {'name': 'csrf_token'})
-    csrf_token = csrf_input['value'] if csrf_input else ''
+    csrf_token = csrf_input['value']
 
     login_data = {
         'username': user,
