@@ -2,10 +2,8 @@
 """
 Module for scraping static product pages using Selenium.
 """
+import time
 from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service
 
 
 def scrape_products(url):
@@ -23,6 +21,11 @@ def scrape_products(url):
         list: A list of product dicts with keys title, price,
               description, and rating
     """
+
+    from selenium.webdriver.common.by import By
+    from selenium.webdriver.chrome.options import Options
+    from selenium.webdriver.chrome.service import Service
+
     chrome_options = Options()
     chrome_options.add_argument('--headless')
     chrome_options.add_argument('--no-sandbox')
