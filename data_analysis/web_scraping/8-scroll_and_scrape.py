@@ -74,7 +74,8 @@ def scroll_and_scrape(url, scroll_pause=2.0):
             description = desc_elem.text
 
             ratings_div = product.find_element('class name', 'ratings')
-            stars = ratings_div.find_elements('class name', 'glyphicon-star')
+            stars = ratings_div.find_elements('css selector',
+                                              'span.ws-icon-star')
             rating = len(stars)
 
             products.append({
