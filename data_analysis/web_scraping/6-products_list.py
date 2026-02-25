@@ -21,17 +21,13 @@ def scrape_products(url):
         list: A list of product dicts with keys title, price,
               description, and rating
     """
-
-    from selenium.webdriver.common.by import By
-    from selenium.webdriver.chrome.options import Options
-    from selenium.webdriver.chrome.service import Service
-
-    chrome_options = Options()
+    chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument('--headless')
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument('--disable-dev-shm-usage')
 
-    service = Service('/usr/bin/chromedriver')
+    service = webdriver.chrome.service.Service(
+        executable_path='/usr/bin/chromedriver')
 
     driver = webdriver.Chrome(service=service, options=chrome_options)
 
@@ -40,22 +36,22 @@ def scrape_products(url):
 
         products = []
 
-        product_elements = driver.find_elements(
-            By.CLASS_NAME, 'product-wrapper')
+        product_elements = driver.find_elements('class name',
+                                                'product-wrapper')
 
         for product in product_elements:
-            title_elem = product.find_element(By.CLASS_NAME, 'title')
+            title_elem = product.find_element('class name', 'title')
             title = title_elem.get_attribute('title')
 
-            price_elem = product.find_element(By.CLASS_NAME, 'price')
+            price_elem = product.find_element('class name', 'price')
             price = price_elem.text
 
-            desc_elem = product.find_element(By.CLASS_NAME, 'description')
+            desc_elem = product.find_element('class name', 'description')
             description = desc_elem.text
 
-            ratings_div = product.find_element(By.CLASS_NAME, 'ratings')
-            rating_p = ratings_div.find_element(
-                By.CSS_SELECTOR, 'p[data-rating]')
+            ratings_div = product.find_element('class name', 'ratings')
+            rating_p = ratings_div.find_element('css selector',
+                                                'p[data-rating]')
             rating = int(rating_p.get_attribute('data-rating'))
 
             products.append({
