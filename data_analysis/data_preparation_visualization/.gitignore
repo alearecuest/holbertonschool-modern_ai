@@ -22,3 +22,9 @@ __pycache__/
 
 # Telco-Customer-Churn.csv
 # precleaned-Telco-Customer-Churn.csv
+
+.venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+Figure_*.png
