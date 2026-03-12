@@ -1,0 +1,24 @@
+.venv/
+venv/
+env/
+
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+.ipynb_checkpoints/
+
+.DS_Store
+
+*.png
+*.jpg
+*.jpeg
+*.svg
+*.pdf
+
+*.csv
+*.rar
+
+# Telco-Customer-Churn.csv
+# precleaned-Telco-Customer-Churn.csv
