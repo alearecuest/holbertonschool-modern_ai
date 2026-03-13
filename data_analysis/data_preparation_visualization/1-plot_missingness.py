@@ -13,13 +13,8 @@ def plot_missingness(df):
     Saves the plot as Figure_1.png (headless-friendly).
     """
     plt.figure(figsize=(12, 8))
-    
-    miss = df.isna().to_numpy()
-    rows, cols = np.where(miss)
-
-    plt.scatter(rows, cols, marker='|')
+    x, y = np.where(df.isna())
+    plt.scatter(x, y, marker='|')
     plt.yticks(range(df.shape[1]), df.columns)
-    plt.xlabel("Row index")
-    plt.ylabel("Columns")
-    plt.title("Missingness Plot")
+    plt.gca().invert_yaxis()
     plt.show()
