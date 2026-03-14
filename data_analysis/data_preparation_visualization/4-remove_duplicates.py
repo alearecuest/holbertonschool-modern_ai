@@ -18,11 +18,4 @@ def remove_duplicates(df):
     Returns:
         Deduplicated DataFrame
     """
-    before = df.duplicated().sum()
-    df = df.drop_duplicates()
-    after = df.duplicated().sum()
-
-    print("Duplicates before:", before)
-    print("Duplicates after:", after)
-
-    return df
+    return df.drop_duplicates()
