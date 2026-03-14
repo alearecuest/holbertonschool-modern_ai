@@ -24,8 +24,7 @@ def plot_churn_distribution(df):
     counts = df['Churn'].value_counts().reindex(['No', 'Yes'])
 
     plt.figure(figsize=(12, 8))
-    plt.bar(['No', 'Yes'], counts.values, color=['blue', 'orange'])
+    plt.bar(['No', 'Yes'], counts.values, color=['tab:blue', 'tab:orange'])
     plt.title('Churn Distribution')
     plt.ylabel('Count')
     plt.show()
-    plt.savefig('6-churn_distribution.png')
