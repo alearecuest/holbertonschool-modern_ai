@@ -14,7 +14,8 @@ def clean_total_charges(df, method='drop'):
     Handle missing values in TotalCharges using the specified method.
 
     Args:
-        df: pandas DataFrame containing TotalCharges, MonthlyCharges, and tenure
+        df: pandas DataFrame containing TotalCharges, MonthlyCharges,
+        and tenure
         method: 'drop', 'median', or 'impute'
 
     Returns:
@@ -33,5 +34,6 @@ def clean_total_charges(df, method='drop'):
         df['TotalCharges'] = df['TotalCharges'].fillna(median_val)
         return df
 
-    df['TotalCharges'] = df['TotalCharges'].fillna(df['MonthlyCharges'] * df['tenure'])
+    df['TotalCharges'] = df['TotalCharges'].fillna(
+        df['MonthlyCharges'] * df['tenure'])
     return df
