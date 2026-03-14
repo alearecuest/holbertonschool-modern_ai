@@ -18,9 +18,11 @@ def remove_duplicates(df):
     Returns:
         Deduplicated DataFrame
     """
-    dup_mask = df.duplicated()
+    before = df.duplicated().sum()
+    df = df.drop_duplicates()
+    after = df.duplicated().sum()
 
-    if dup_mask.any():
-        print(df[dup_mask])
+    print("Duplicates before:", before)
+    print("Duplicates after:", after)
 
-    return df.drop_duplicates()
+    return df
