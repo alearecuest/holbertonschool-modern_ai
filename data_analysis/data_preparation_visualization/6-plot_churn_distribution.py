@@ -21,14 +21,11 @@ def plot_churn_distribution(df):
     Returns:
         None
     """
-    plt.figure(figsize=(12, 8))
-
     counts = df['Churn'].value_counts().reindex(['No', 'Yes'])
-    ax = counts.plot(kind='bar', color=['blue', 'orange'])
 
-    ax.set_title('Churn Distribution')
-    ax.set_xlabel('Churn')
-    ax.set_ylabel('Count')
-
-    plt.tight_layout()
+    plt.figure(figsize=(12, 8))
+    plt.bar(['No', 'Yes'], counts.values, color=['blue', 'orange'])
+    plt.title('Churn Distribution')
+    plt.ylabel('Count')
     plt.show()
+    plt.savefig('6-churn_distribution.png')
