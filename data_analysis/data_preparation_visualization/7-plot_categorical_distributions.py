@@ -9,40 +9,27 @@ Write a function that visualizes categorical feature distributions:
 - Saves the plot as Task_7.png and displays it
 """
 
-import matplotlib
-matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
 
-def _flatten(axes):
-    """Flatten axes returned by plt.subplots into a simple list."""
-    if isinstance(axes, (list, tuple)):
-        out = []
-        for a in axes:
-            out.extend(_flatten(a))
-        return out
-    try:
-        return list(axes.ravel())
-    except Exception:
-        return [axes]
-
 def plot_categorical_distributions(df, columns_to_plot=None):
     """
-    Visualize categorical feature distributions.
+    Visualizes categorical feature distributions:
+    - If columns_to_plot is None, plots all object dtype columns
+    - Generates bar plots for each categorical feature in a grid layout
+    - Rotates x-axis labels by 45°
+    - Displays the plot
 
     Args:
         df: pandas DataFrame
-        columns_to_plot: Optional list of categorical columns (default: all object dtype columns)
+        columns_to_plot: Optional list of categorical columns
+        (default: all object dtype columns)
 
     Returns:
         None
     """
     if columns_to_plot is None:
-        columns_to_plot = df.select_dtypes(include=["object"]).columns.tolist()
-    elif isinstance(columns_to_plot, str):
-        columns_to_plot = [columns_to_plot]
-    else:
-        columns_to_plot = list(columns_to_plot)
+        columns_to_plot = df.select_dtypes(include=['object']).columns.tolist()
 
     n_features = len(columns_to_plot)
     if n_features == 0:
@@ -52,17 +39,42 @@ def plot_categorical_distributions(df, columns_to_plot=None):
     n_rows = (n_features + n_cols - 1) // n_cols
 
     fig, axes = plt.subplots(n_rows, n_cols, figsize=(15, 5 * n_rows))
-    axes_list = _flatten(axes)
 
     for i, col in enumerate(columns_to_plot):
-        ax = axes_list[i]
+        r = i // n_cols
+        c = i % n_cols
+
+        if n_rows == 1 and n_cols == 1:
+            ax = axes
+        elif n_rows == 1:
+            ax = axes[c]
+        elif n_cols == 1:
+            ax = axes[r]
+        else:
+            ax = axes[r, c]
+
         counts = df[col].value_counts()
         ax.bar(counts.index.astype(str), counts.values)
         ax.set_title(col)
-        ax.tick_params(axis="x", rotation=45)
+        ax.set_xlabel(col)
 
-    for j in range(n_features, len(axes_list)):
-        axes_list[j].axis("off")
+        plt.setp(ax.get_xticklabels(), rotation=45)
+
+    total_axes = n_rows * n_cols
+    for j in range(n_features, total_axes):
+        r = j // n_cols
+        c = j % n_cols
+
+        if n_rows == 1 and n_cols == 1:
+            ax = axes
+        elif n_rows == 1:
+            ax = axes[c]
+        elif n_cols == 1:
+            ax = axes[r]
+        else:
+            ax = axes[r, c]
+
+        ax.axis('off')
 
     plt.tight_layout()
     plt.savefig("Task_7.png")
