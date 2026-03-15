@@ -2,20 +2,23 @@
 """
 Plot Categorical Distributions
 
-Generates bar plots for categorical feature distributions in a grid layout.
+Write a function that visualizes categorical feature distributions:
+- If columns_to_plot is None, plot all object dtype columns
+- Generates bar plots for each categorical feature in a grid layout
+- Rotates x-axis labels by 45 degrees
+- Saves the plot as Task_7.png and displays it
 """
 
 import matplotlib.pyplot as plt
-import numpy as np
+
 
 def plot_categorical_distributions(df, columns_to_plot=None):
     """
-    Visualizes categorical feature distributions.
+    Visualize categorical feature distributions.
 
     Args:
         df: pandas DataFrame
-        columns_to_plot: optional list of categorical columns to plot.
-                         If None, plots all object dtype columns.
+        columns_to_plot: Optional list of categorical columns (default: all object dtype columns)
 
     Returns:
         None
