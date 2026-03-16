@@ -30,14 +30,16 @@ def plot_continuous_distributions(df, columns_to_plot=None):
     for i, col in enumerate(columns_to_plot):
         data = df[col].dropna()
 
-        axes[i, 0].hist(
-            data, bins=30, density=True, alpha=0.7, edgecolor='black')
+        axes[i, 0].hist(data, bins=30, density=True, alpha=0.7,
+                        edgecolor='black')
 
         kde = stats.gaussian_kde(data)
         x_vals = np.linspace(data.min(), data.max(), 100)
         axes[i, 0].plot(x_vals, kde(x_vals))
+        axes[i, 0].set_title(col)
 
-        axes[i, 1].boxplot(data)
+        axes[i, 1].boxplot(data, vert=False)
+        axes[i, 1].set_title(col)
 
     plt.tight_layout()
     plt.savefig("Task_8.png")
