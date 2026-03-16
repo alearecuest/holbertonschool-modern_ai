@@ -30,6 +30,8 @@ def plot_categorical_distributions(df, columns_to_plot=None):
     """
     if columns_to_plot is None:
         columns_to_plot = df.select_dtypes(include=['object']).columns.tolist()
+        if 'Churn' in columns_to_plot:
+            columns_to_plot.remove('Churn')
     elif isinstance(columns_to_plot, str):
         columns_to_plot = [columns_to_plot]
 
@@ -46,22 +48,18 @@ def plot_categorical_distributions(df, columns_to_plot=None):
         axes = [axes]
     if n_cols == 1:
         axes = [[ax] for ax in axes]
-    if n_rows > 1 and n_cols > 1:
-        axes = axes
 
     for idx, col in enumerate(columns_to_plot):
         r = idx // n_cols
         c = idx % n_cols
-        ax = axes[r][c] if n_rows > 1 and n_cols > 1 else axes[r][c] if n_rows > 1 else axes[r][c]
+        ax = axes[r][c]
         df[col].value_counts().plot(kind='bar', ax=ax, rot=45)
         ax.set_title(col)
 
-    total_plots = n_rows * n_cols
-    for idx in range(n_features, total_plots):
+    for idx in range(n_features, n_rows * n_cols):
         r = idx // n_cols
         c = idx % n_cols
-        ax = axes[r][c] if n_rows > 1 and n_cols > 1 else axes[r][c] if n_rows > 1 else axes[r][c]
-        ax.axis('off')
+        axes[r][c].axis('off')
 
     plt.tight_layout()
     plt.savefig("Task_7.png")
