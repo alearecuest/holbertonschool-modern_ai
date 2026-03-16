@@ -17,9 +17,9 @@ def plot_categorical_distributions(df, columns_to_plot=None):
         columns_to_plot = list(columns_to_plot)
 
     n_cols, n_rows = 3, (len(columns_to_plot) + 2) // 3
-   
+
     fig, axes = plt.subplots(n_rows, n_cols, figsize=(15, 5 * n_rows))
-   
+ 
     if isinstance(axes, plt.Axes):
         axes = [axes]
     else:
