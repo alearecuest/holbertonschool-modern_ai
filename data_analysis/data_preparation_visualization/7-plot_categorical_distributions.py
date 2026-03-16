@@ -24,7 +24,6 @@ def plot_categorical_distributions(df, columns_to_plot=None):
         axes = [axes]
     else:
         axes = axes.flatten()
-
     for i, col in enumerate(columns_to_plot):
         counts = df[col].value_counts()
         axes[i].bar(counts.index, counts.values)
