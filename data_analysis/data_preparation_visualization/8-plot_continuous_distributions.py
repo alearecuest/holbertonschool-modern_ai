@@ -12,8 +12,7 @@ def plot_continuous_distributions(df, columns_to_plot=None):
     Visualizes the distributions of continuous numerical features.
     """
     if columns_to_plot is None:
-        num_cols = df.select_dtypes(include=['number']).columns
-        columns_to_plot = num_cols.tolist()
+        columns_to_plot = df.select_dtypes(include=['number']).columns.tolist()
     else:
         columns_to_plot = list(columns_to_plot)
 
@@ -30,8 +29,7 @@ def plot_continuous_distributions(df, columns_to_plot=None):
         data = df[col].dropna()
 
         ax_hist = axes[i, 0]
-        ax_hist.hist(data, bins=30, density=True, alpha=0.7,
-                     edgecolor='black', color='steelblue')
+        ax_hist.hist(data, bins=30, density=True, alpha=0.7, edgecolor='black')
 
         kde = stats.gaussian_kde(data)
         x_vals = np.linspace(data.min(), data.max(), 100)
@@ -43,5 +41,3 @@ def plot_continuous_distributions(df, columns_to_plot=None):
         ax_box.set_title(f"{col} Boxplot")
 
     plt.tight_layout()
-    plt.savefig("Task_8.png")
-    plt.show()
