@@ -30,6 +30,8 @@ def plot_categorical_distributions(df, columns_to_plot=None):
     """
     if columns_to_plot is None:
         columns_to_plot = df.select_dtypes(include=['object']).columns.tolist()
+    elif isinstance(columns_to_plot, str):
+        columns_to_plot = [columns_to_plot]
 
     n_features = len(columns_to_plot)
     if n_features == 0:
@@ -40,40 +42,25 @@ def plot_categorical_distributions(df, columns_to_plot=None):
 
     fig, axes = plt.subplots(n_rows, n_cols, figsize=(15, 5 * n_rows))
 
-    for i, col in enumerate(columns_to_plot):
-        r = i // n_cols
-        c = i % n_cols
+    if n_rows == 1:
+        axes = [axes]
+    if n_cols == 1:
+        axes = [[ax] for ax in axes]
+    if n_rows > 1 and n_cols > 1:
+        axes = axes
 
-        if n_rows == 1 and n_cols == 1:
-            ax = axes
-        elif n_rows == 1:
-            ax = axes[c]
-        elif n_cols == 1:
-            ax = axes[r]
-        else:
-            ax = axes[r, c]
-
-        counts = df[col].value_counts()
-        ax.bar(counts.index.astype(str), counts.values)
+    for idx, col in enumerate(columns_to_plot):
+        r = idx // n_cols
+        c = idx % n_cols
+        ax = axes[r][c] if n_rows > 1 and n_cols > 1 else axes[r][c] if n_rows > 1 else axes[r][c]
+        df[col].value_counts().plot(kind='bar', ax=ax, rot=45)
         ax.set_title(col)
-        ax.set_xlabel(col)
 
-        plt.setp(ax.get_xticklabels(), rotation=45)
-
-    total_axes = n_rows * n_cols
-    for j in range(n_features, total_axes):
-        r = j // n_cols
-        c = j % n_cols
-
-        if n_rows == 1 and n_cols == 1:
-            ax = axes
-        elif n_rows == 1:
-            ax = axes[c]
-        elif n_cols == 1:
-            ax = axes[r]
-        else:
-            ax = axes[r, c]
-
+    total_plots = n_rows * n_cols
+    for idx in range(n_features, total_plots):
+        r = idx // n_cols
+        c = idx % n_cols
+        ax = axes[r][c] if n_rows > 1 and n_cols > 1 else axes[r][c] if n_rows > 1 else axes[r][c]
         ax.axis('off')
 
     plt.tight_layout()
