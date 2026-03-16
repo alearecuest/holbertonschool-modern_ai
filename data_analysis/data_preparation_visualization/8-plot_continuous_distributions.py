@@ -14,12 +14,15 @@ def plot_continuous_distributions(df, columns_to_plot=None):
     if columns_to_plot is None:
         columns_to_plot = df.select_dtypes(include=['number']).columns.tolist()
     else:
-        columns_to_plot = list(columns_to_plot)
-
-    if not columns_to_plot:
-        return
+        if isinstance(columns_to_plot, str):
+            columns_to_plot = [columns_to_plot]
+        else:
+            columns_to_plot = list(columns_to_plot)
 
     n_cols = len(columns_to_plot)
+    if n_cols == 0:
+        return
+
     fig, axes = plt.subplots(n_cols, 2, figsize=(10, 3 * n_cols))
 
     if n_cols == 1:
@@ -32,7 +35,7 @@ def plot_continuous_distributions(df, columns_to_plot=None):
         ax_hist.hist(data, bins=30, density=True, alpha=0.7, edgecolor='black')
 
         kde = stats.gaussian_kde(data)
-        x_vals = np.linspace(data.min(), data.max(), 100)
+        x_vals = np.linspace(data.min(), data.max(), 1000)
         ax_hist.plot(x_vals, kde(x_vals), color='red', linestyle='--')
         ax_hist.set_title(f"{col} Histogram + KDE")
 
@@ -41,3 +44,5 @@ def plot_continuous_distributions(df, columns_to_plot=None):
         ax_box.set_title(f"{col} Boxplot")
 
     plt.tight_layout()
+    plt.savefig("Task_8.png")
+    plt.show()
