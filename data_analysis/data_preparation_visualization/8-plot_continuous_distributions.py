@@ -31,7 +31,8 @@ def plot_continuous_distributions(df, columns_to_plot=None):
     for i, col in enumerate(columns_to_plot):
         data = df[col].dropna()
 
-        axes[i, 0].hist(data, bins=30, density=True, alpha=0.7, edgecolor='black')
+        axes[i, 0].hist(
+            data, bins=30, density=True, alpha=0.7, edgecolor='black')
 
         kde = stats.gaussian_kde(data)
         x_vals = np.linspace(data.min(), data.max(), 100)
