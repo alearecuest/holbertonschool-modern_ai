@@ -35,7 +35,9 @@ def plot_continuous_distributions(df, columns_to_plot=None):
 
         kde = stats.gaussian_kde(data)
         x_vals = np.linspace(data.min(), data.max(), 100)
-        axes[i, 0].plot(x_vals, kde(x_vals))
+
+        axes[i, 0].plot(x_vals, kde(x_vals), color='black', linestyle='--')
+
         axes[i, 0].set_title(col)
 
         axes[i, 1].boxplot(data, vert=False)
