@@ -29,13 +29,13 @@ def plot_categorical_distributions(df, columns_to_plot=None):
         None
     """
     if columns_to_plot is None:
-        columns_to_plot = [col for col in df.columns if df[col].dtype == 'object' and col != 'Churn']
+        columns = [col for col in df.columns if df[col].dtype == 'object' and col != 'Churn']
     elif isinstance(columns_to_plot, str):
-        columns_to_plot = [columns_to_plot]
+        columns = [columns_to_plot]
     else:
-        columns_to_plot = list(columns_to_plot)
+        columns = list(columns_to_plot)
 
-    n_features = len(columns_to_plot)
+    n_features = len(columns)
     if n_features == 0:
         return
 
@@ -48,14 +48,11 @@ def plot_categorical_distributions(df, columns_to_plot=None):
     if n_cols == 1:
         axes = [[ax] for ax in axes]
 
-    for idx, col in enumerate(columns_to_plot):
+    for idx, col in enumerate(columns):
         r = idx // n_cols
         c = idx % n_cols
         ax = axes[r][c]
-        vc = df[col].value_counts()
-        ax.bar(vc.index.astype(str), vc.values)
-        ax.set_xlabel(col)
-        plt.setp(ax.get_xticklabels(), rotation=45)
+        df[col].value_counts().plot(kind='bar', ax=ax, rot=45)
 
     for idx in range(n_features, n_rows * n_cols):
         r = idx // n_cols
