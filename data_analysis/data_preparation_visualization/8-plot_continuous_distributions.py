@@ -38,10 +38,11 @@ def plot_continuous_distributions(df, columns_to_plot=None):
 
         axes[i, 0].plot(x_vals, kde(x_vals), color='black', linestyle='--')
 
-        axes[i, 0].set_title(col)
+        axes[i, 0].set_title(f"{col} Distribution")
 
         axes[i, 1].boxplot(data, vert=False)
-        axes[i, 1].set_title(col)
+
+        axes[i, 1].set_title(f"{col} Box Plot")
 
     plt.tight_layout()
     plt.savefig("Task_8.png")
