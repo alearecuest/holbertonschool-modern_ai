@@ -12,19 +12,12 @@ def plot_correlation_heatmap(df):
     """
     plt.figure(figsize=(6, 5))
 
-    numeric_cols = df.select_dtypes(include=['number'])
-    continuous_cols = [c for c in numeric_cols.columns if df[c].nunique() > 10]
-    df_continuous = df[continuous_cols]
+    numeric_df = df.select_dtypes(include=['number'])
+    if 'SeniorCitizen' in numeric_df.columns:
+        numeric_df = numeric_df.drop(columns=['SeniorCitizen'])
 
-    corr_matrix = df_continuous.corr()
+    corr_matrix = numeric_df.corr()
 
-    sns.heatmap(corr_matrix, 
-                annot=True, 
-                cmap='coolwarm', 
-                vmin=-1, 
-                vmax=1)
+    sns.heatmap(corr_matrix, annot=True, cmap='coolwarm')
 
-    plt.title("Correlation Matrix")
-
-    plt.tight_layout()
     plt.show()
