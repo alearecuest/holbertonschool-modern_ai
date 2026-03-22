@@ -12,12 +12,8 @@ def plot_correlation_heatmap(df):
     """
     plt.figure(figsize=(6, 5))
 
-    num_cols = df.select_dtypes(include=['number']).columns.tolist()
-    if 'SeniorCitizen' in num_cols:
-        num_cols.remove('SeniorCitizen')
+    numeric_df = df.select_dtypes(include=['number'])
 
-    corr_matrix = df[num_cols].corr()
-
-    sns.heatmap(corr_matrix, annot=True, cmap='coolwarm', vmin=-1, vmax=1)
+    sns.heatmap(numeric_df.corr(), annot=True, cmap='coolwarm')
 
     plt.show()
