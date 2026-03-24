@@ -21,10 +21,11 @@ def create_features(df):
 
     for col in existing_services:
         if col == 'InternetService':
-            df['NumServices'] += df[col].isin(['DSL', 'Fiber optic']).astype(int)
+            df['NumServices'] += df[
+                col].isin(['DSL', 'Fiber optic']).astype(int)
         else:
             df['NumServices'] += (df[col] == 'Yes').astype(int)
-            
+
     bins = [-1, 12, 24, 48, 60, float('inf')]
     labels = ['0-12', '13-24', '25-48', '49-60', '60+']
 
