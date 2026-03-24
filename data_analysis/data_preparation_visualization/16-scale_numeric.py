@@ -7,14 +7,12 @@ from sklearn import preprocessing
 
 def scale_numeric(df):
     """
-    Scales numeric columns using StandardScaler.
+    Scales MonthlyCharges and TotalCharges using StandardScaler.
     """
     scaler = preprocessing.StandardScaler()
-
     cols = ['MonthlyCharges', 'TotalCharges']
 
-    for col in cols:
-        if col in df.columns:
-            df[[col]] = scaler.fit_transform(df[[col]])
+    if all(col in df.columns for col in cols):
+        df[cols] = scaler.fit_transform(df[cols])
 
     return df
