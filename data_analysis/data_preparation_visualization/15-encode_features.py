@@ -8,41 +8,50 @@ from sklearn import preprocessing
 
 def encode_features(df):
     """
-    Encodes categorical features into numeric formats suitable for ML modeling.
+    Encodes categorical features into numeric formats suitable for ML.
     """
     churn_le = preprocessing.LabelEncoder()
     if 'Churn' in df.columns:
         df['Churn'] = churn_le.fit_transform(df['Churn']).astype(int)
 
-    binary_oe = preprocessing.OrdinalEncoder(categories=[['No', 'Yes']])
+    cats = [['No', 'Yes']]
+    binary_oe = preprocessing.OrdinalEncoder(categories=cats)
+    bin_cols = ['Partner', 'Dependents', 'PaperlessBilling']
+    bin_cols.append('SeniorCitizen')
 
-    binary_cols = ['Partner', 'Dependents', 'PaperlessBilling']
-
-    for col in binary_cols:
+    for col in bin_cols:
         if col in df.columns:
-            df[[col]] = binary_oe.fit_transform(df[[col]]).astype(int)
+            u_vals = set(df[col].dropna().astype(str).unique())
+            if u_vals.issubset({'0', '1', '0.0', '1.0'}):
+                map_dict = {0: 'No', 1: 'Yes', '0': 'No', '1': 'Yes'}
+                df[col] = df[col].map(map_dict)
 
-    if 'SeniorCitizen' in df.columns:
-        df['SeniorCitizen'] = df['SeniorCitizen'].astype(int)
+            df[[col]] = binary_oe.fit_transform(df[[col]])
+            df[col] = df[col].astype(int)
 
     tenure_oe = preprocessing.OrdinalEncoder()
     if 'TenureGroup' in df.columns:
-        df[['TenureGroup']] = tenure_oe.fit_transform(
-            df[['TenureGroup']]).astype(int)
+        df[['TenureGroup']] = tenure_oe.fit_transform(df[['TenureGroup']])
+        df['TenureGroup'] = df['TenureGroup'].astype(int)
 
     ohe_cols = ['Contract', 'PaymentMethod']
-    existing_ohe = [col for col in ohe_cols if col in df.columns]
+    exist_ohe = [col for col in ohe_cols if col in df.columns]
 
-    if existing_ohe:
-        ohe = preprocessing.OneHotEncoder(drop='first', sparse_output=False)
-        encoded_arrays = ohe.fit_transform(df[existing_ohe])
+    if exist_ohe:
+        ohe = preprocessing.OneHotEncoder(drop='first')
+        enc_arr = ohe.fit_transform(df[exist_ohe])
 
-        encoded_df = pd.DataFrame(
-            encoded_arrays,
-            columns=ohe.get_feature_names_out(existing_ohe),
-            index=df.index
-        ).astype(int)
+        if hasattr(enc_arr, 'toarray'):
+            enc_arr = enc_arr.toarray()
 
-        df = pd.concat([df.drop(columns=existing_ohe), encoded_df], axis=1)
+        if hasattr(ohe, 'get_feature_names_out'):
+            cols = ohe.get_feature_names_out(exist_ohe)
+        else:
+            cols = ohe.get_feature_names(exist_ohe)
+
+        enc_df = pd.DataFrame(enc_arr, columns=cols, index=df.index)
+        enc_df = enc_df.astype(int)
+
+        df = pd.concat([df.drop(columns=exist_ohe), enc_df], axis=1)
 
     return df, churn_le, binary_oe, tenure_oe
