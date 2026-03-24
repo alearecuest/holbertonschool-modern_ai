@@ -7,8 +7,8 @@ from scipy import stats
 
 def ttest_numeric(df):
     """
-    Computes t-test p-value comparing Churn=Yes vs Churn=No 
-    for each numeric feature using Welch's t-test.
+    Computes t-test p-value comparing Churn=Yes vs Churn
+    =No for each numeric feature using Welch's t-test.
     """
     p_values = {}
 
