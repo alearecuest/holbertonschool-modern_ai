@@ -29,13 +29,14 @@ def encode_features(df):
     tenure_oe = preprocessing.OrdinalEncoder()
     if 'TenureGroup' in df.columns:
         t_group = df[['TenureGroup']]
-        df[['TenureGroup']] = tenure_oe.fit_transform(t_group).astype(int)
+        df[['TenureGroup']] = tenure_oe.fit_transform(t_group)
+        df['TenureGroup'] = df['TenureGroup'].astype(int)
 
     ohe_cols = ['Contract', 'PaymentMethod']
     exist_ohe = [col for col in ohe_cols if col in df.columns]
 
     if exist_ohe:
-        ohe = preprocessing.OneHotEncoder(drop='first', sparse_output=False)
+        ohe = preprocessing.OneHotEncoder(drop='first', sparse=False)
         enc_arr = ohe.fit_transform(df[exist_ohe])
 
         col_names = ohe.get_feature_names_out(exist_ohe)
