@@ -3,25 +3,25 @@
 Module to encode features for modeling using Scikit-learn
 """
 import pandas as pd
-from sklearn.preprocessing import LabelEncoder, OrdinalEncoder, OneHotEncoder
+from sklearn import preprocessing
 
 
 def encode_features(df):
     """
     Encodes categorical features into numeric formats suitable for ML modeling.
     """
-    churn_le = LabelEncoder()
+    churn_le = preprocessing.LabelEncoder()
     if 'Churn' in df.columns:
         df['Churn'] = churn_le.fit_transform(df['Churn']).astype(int)
 
     binary_cols = ['Partner', 'Dependents', 'PaperlessBilling', 'SeniorCitizen']
     existing_binary = [col for col in binary_cols if col in df.columns]
 
-    binary_oe = OrdinalEncoder()
+    binary_oe = preprocessing.OrdinalEncoder()
     if existing_binary:
         df[existing_binary] = binary_oe.fit_transform(df[existing_binary]).astype(int)
 
-    tenure_oe = OrdinalEncoder()
+    tenure_oe = preprocessing.OrdinalEncoder()
     if 'TenureGroup' in df.columns:
         df[['TenureGroup']] = tenure_oe.fit_transform(df[['TenureGroup']]).astype(int)
 
@@ -29,7 +29,7 @@ def encode_features(df):
     existing_ohe = [col for col in ohe_cols if col in df.columns]
 
     if existing_ohe:
-        ohe = OneHotEncoder(drop='first', sparse_output=False)
+        ohe = preprocessing.OneHotEncoder(drop='first', sparse_output=False)
         encoded_arrays = ohe.fit_transform(df[existing_ohe])
 
         encoded_df = pd.DataFrame(
