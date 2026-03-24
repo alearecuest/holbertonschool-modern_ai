@@ -2,7 +2,6 @@
 """
 Module to split data into train and test sets with stratified sampling
 """
-import pandas as pd
 from sklearn import model_selection
 
 
